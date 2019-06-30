@@ -54,45 +54,46 @@ public class Registration  {
           
             Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/ExamProject","root","root");
             
-            Statement s = con.createStatement();
-            ResultSet rs=s.executeQuery("select Email from StudentDetails");
-            while(rs.next())
-            {
-//                System.out.println("Email addresss : "+rs.getString(1));
-                if(rs.getString(1).compareTo(email)!=0)//compareto function it compare to email
-                {
-                                //Sql query for upadating user input into table using store procedure
+                   //Sql query for upadating user input into table using store procedure
                         PreparedStatement ps= con.prepareStatement("CALL inputDetails(?,?,?)");
                         //passing values to query
                         ps.setString(1,name);
                         ps.setString(2,email);
                         ps.setInt(3,Password);
                         ps.executeUpdate();
-                }
-                else
-                {
-                    System.out.println("Email already registered..\n Try different email address..");
-                }
-            }
+                       //user details
+                       UserDetails u= new UserDetails(email);
+//                         login l= new login();
+//                try{
+//                    l.login_input();
+//                }
+//                catch(Exception e)
+//                {
+//                    System.out.println(e.getMessage());
+//                    System.out.println(e.getLocalizedMessage());
+//                }
+                       
             
-            
+            // 
           
        
    con.close();            
         
     }
-    public static void main(String[] args) {
-        Registration r = new Registration();
-        r.Input();
-        try{
-            r.JdbcInput();
-            System.out.println("Registration Successful...");
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-//        System.out.println(r.Password);//print check for random password
-    }
+//    public static void main(String[] args) {
+//        Registration r = new Registration();
+//        r.Input();
+//        try{
+//            r.JdbcInput();
+//            System.out.println("Registration Successful...");
+//        }
+//        catch(Exception e)
+//        {   
+//            System.out.println("Email already registered");
+//            System.out.println("Please try another Email address...");
+//            //System.out.println(e.getMessage());
+//        }
+//        
+////        System.out.println(r.Password);//print check for random password
+//    }
 }

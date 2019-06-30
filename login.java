@@ -1,4 +1,4 @@
-package testproject;
+package oopss_examination;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,8 @@ public class login
     int UserPassword;// password from the user given during registration
     int DbPassword;//to get password form database for particular user
     Scanner scan = new Scanner(System.in);
-    
+    String UserStream;
+            
     public void login_input() throws ClassNotFoundException, SQLException
     {
         System.out.println("Enter The ID:");
@@ -47,18 +48,24 @@ public class login
        if (UserPassword == DbPassword) // check the password from database
        {
            
-           System.out.println("Please Enter the Stream:");   
+           System.out.println("Please Enter the Stream(Science,Arts,Commerce):");   
+           Scanner sc= new Scanner(System.in);
+           UserStream=sc.next();
+           //updating Stream to database
+           PreparedStatement StreamUpdate= con.prepareStatement("update StudentDetails set Stream=? where StudentId=?");
            
-           Testproject t = new Testproject();
-          t.Input();
-       //differeent func for logic to increment marks   
-          // stream
-          //switch
-          //1 sci  database connet
-          
-          //2 com 
-          //3 arts
-          //
+           StreamUpdate.setString(1,UserStream);
+           StreamUpdate.setInt(2,UserId);
+           StreamUpdate.executeUpdate();
+           try{
+            DisplayQuestions d = new DisplayQuestions(UserStream,UserId);
+            ShowResult s = new ShowResult(UserId);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+ 
            
        }
        else
@@ -68,17 +75,17 @@ public class login
            
        }
     }
-    public static void main(String[] args) 
-    {
-        login l= new login();
-                try{
-                    l.login_input();
-                }
-                catch(Exception e)
-                {
-                    System.out.println(e.getMessage());
-                    System.out.println(e.getLocalizedMessage());
-                }
-    }
+//    public static void main(String[] args) 
+//    {
+//        login l= new login();
+//                try{
+//                    l.login_input();
+//                }
+//                catch(Exception e)
+//                {
+//                    System.out.println(e.getMessage());
+//                    System.out.println(e.getLocalizedMessage());
+//                }
+//    }
     
 }
